@@ -1,11 +1,13 @@
 export default function destruct(obj) {
-    const {special} = obj;
-
-    special.forEach(item => {
-        if (!('description' in item)) {
-            item['description'] = 'Описание недоступно';
+    const copyObj = Object.assign(obj);
+    for (let i = 0; i < copyObj.special.length; i++) {
+        if(!('description' in copyObj.special[i])) {
+            Object.defineProperty(copyObj.special[i], 'description', {configurable: true,
+                                                                    enumerable: true,
+                                                                    value: 'Описание недоступно',
+                                                                    writable: true})
         }
-    });
+    };
     
-    return special;
+    return copyObj.special;
 }
